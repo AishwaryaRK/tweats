@@ -1,44 +1,22 @@
 package datamodel
 
-type Interest int
-
-const (
-	Sports Interest = iota
-	MusicAndEnterainment 
-	CurrentAffairs
-	HighTech
-	TravelAndLifestyle
-	NatureLovers
-	Anything
-)
-
+//24hr format
 type TimeSlot struct {
 	Start int
-	End int
+	End   int
 }
 
 type Availability struct {
-	Weekday int
+	//Monday = 1, Friday = 5
+	Weekday   int
 	TimeSlots []TimeSlot
 }
 
-var (
-	InterestDescMapping = map[Interest]string {
-		Sports: "Sports",
-		MusicAndEnterainment: "Music And Enterainment",
-		CurrentAffairs: "Current Affairs",
-		HighTech: "High-Tech",
-		TravelAndLifestyle: "Travel and Lifestyle",
-		NatureLovers: "Nature Lovers",
-		Anything: "Anything Under The Sun",
-	}
-)
-
 type Tweep struct {
-	LDAP string
-	OfficeLocation string
-	Interest []Interest
+	LDAP                          string
+	OfficeLocation                string
+	Interest                      []string
 	AllergiesNDieteryRestrictions string
-	EatAtOffice bool
-	Availabilities []Availability
+	TweatLocation                 string
+	Availabilities                []Availability
 }
