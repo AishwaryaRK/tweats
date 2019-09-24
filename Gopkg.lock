@@ -11,6 +11,17 @@
 
 [[projects]]
   branch = "master"
+  digest = "1:eab42c1f210b07ebac1443ad68ff071772e084d421453285eff3c91ec3b006e8"
+  name = "github.com/WUMUXIAN/go-common-utils"
+  packages = [
+    "codec",
+    "cryptowrapper",
+  ]
+  pruneopts = "UT"
+  revision = "f42d0de5433899539be716d615405dc0e231345c"
+
+[[projects]]
+  branch = "master"
   digest = "1:b7cb6054d3dff43b38ad2e92492f220f57ae6087ee797dca298139776749ace8"
   name = "github.com/golang/groupcache"
   packages = ["lru"]
@@ -63,6 +74,18 @@
   pruneopts = "UT"
   revision = "59d1ce35d30f3c25ba762169da2a37eab6ffa041"
   version = "v0.22.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:738e906850d28d5e45d7721da1f1148e259a66fb9104b7a78d133f95e87dca2a"
+  name = "golang.org/x/crypto"
+  packages = [
+    "curve25519",
+    "hkdf",
+    "pbkdf2",
+  ]
+  pruneopts = "UT"
+  revision = "9ee001bba392397c76f100a2d5b13afc86f167f1"
 
 [[projects]]
   branch = "master"
@@ -219,6 +242,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/WUMUXIAN/go-common-utils/cryptowrapper",
     "google.golang.org/api/option",
     "google.golang.org/api/sheets/v4",
   ]

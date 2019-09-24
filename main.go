@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/AishwaryaRK/tweats/tweats_reader"
+	"github.com/AishwaryaRK/tweats/tweatsreader"
 )
 
 func main() {
-	tweeps, err := tweats_reader.Read()
+	tweeps, err := tweatsreader.Read()
 	if err != nil {
 		fmt.Printf("err: %v", err)
 		return
