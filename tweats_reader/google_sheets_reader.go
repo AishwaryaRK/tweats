@@ -3,10 +3,12 @@ package tweats_reader
 import (
 	"context"
 	"errors"
-	"google.golang.org/api/option"
-	"google.golang.org/api/sheets/v4"
 	"strings"
-	"tweats/datamodel"
+
+	"github.com/AishwaryaRK/tweats/datamodel"
+
+	"google.golang.org/api/option"
+	sheets "google.golang.org/api/sheets/v4"
 )
 
 const API_KEY = ""
@@ -33,7 +35,7 @@ func Read() ([]datamodel.Tweep, error) {
 			tweep := datamodel.Tweep{
 				LDAP:                          row[1].(string),
 				OfficeLocation:                row[2].(string),
-				Interest:                      strings.Split(row[3].(string), ", "),
+				Interests:                     strings.Split(row[3].(string), ", "),
 				AllergiesNDieteryRestrictions: row[4].(string),
 				TweatLocation:                 row[5].(string),
 				Availabilities: []datamodel.Availability{

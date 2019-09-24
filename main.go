@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"tweats/tweats_reader"
+
+	"github.com/AishwaryaRK/tweats/tweats_reader"
 )
 
 func main() {
 	tweeps, err := tweats_reader.Read()
 	if err != nil {
-		fmt.Errorf("err: %v", err)
+		fmt.Printf("err: %v", err)
 		return
 	}
 
