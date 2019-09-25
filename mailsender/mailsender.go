@@ -9,10 +9,11 @@ import (
 
     model "github.com/AishwaryaRK/tweats/datamodel"
     matcher "github.com/AishwaryaRK/tweats/matcher"
+    "github.com/AishwaryaRK/tweats/config"
 )
 
-const senderMail = "*******@gmail.com"
-const senderCredential = "******"
+const senderMail = config.SMTP_SENDER_MAIL
+const senderCredential = config.SMTP_SENDER_CRENTIAL
 const smtpHost = "smtp.gmail.com"
 const smtpURI = "smtp.gmail.com:587"
 const twitterMailSuffix = "@twitter.com"

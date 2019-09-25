@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/AishwaryaRK/tweats/datamodel"
+	"github.com/AishwaryaRK/tweats/config"
 	"strings"
 
 	"google.golang.org/api/option"
@@ -12,8 +13,8 @@ import (
 
 // Constants
 const (
-	APIKey        = "******"
-	SpreadSheetID = "******"
+	APIKey        = config.GOOGLE_SHEET_API_KEY
+	SpreadSheetID = config.GOOGLE_SHEET_SPREAD_SHEET_ID
 )
 
 // Read reads google sheets and return the tweeps
