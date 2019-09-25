@@ -3,18 +3,17 @@ package tweatsreader
 import (
 	"context"
 	"errors"
+	"github.com/AishwaryaRK/tweats/datamodel"
 	"strings"
 
-	"github.com/AishwaryaRK/tweats/datamodel"
-
 	"google.golang.org/api/option"
-	sheets "google.golang.org/api/sheets/v4"
+	"google.golang.org/api/sheets/v4"
 )
 
 // Constants
 const (
-	APIKey        = ""
-	SpreadSheetID = ""
+	APIKey        = "******"
+	SpreadSheetID = "******"
 )
 
 // Read reads google sheets and return the tweeps

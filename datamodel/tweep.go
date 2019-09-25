@@ -17,6 +17,7 @@ type Availability struct {
 type Tweep struct {
 	Name                          string
 	LDAP                          string
+	Name                          string
 	OfficeLocation                string
 	Interests                     []string
 	AllergiesNDieteryRestrictions string

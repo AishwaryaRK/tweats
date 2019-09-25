@@ -32,3 +32,7 @@
 [[constraint]]
   name = "google.golang.org/api"
   version = "0.10.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/WUMUXIAN/go-common-utils"

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"tweats/matcher"
-	"tweats/tweatsreader"
+	"github.com/AishwaryaRK/tweats/matcher"
+	"github.com/AishwaryaRK/tweats/tweatsreader"
 )
 
 func main() {
