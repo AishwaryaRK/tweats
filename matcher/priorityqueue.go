@@ -15,7 +15,7 @@ func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
 	// We want Pop to give us the interest that has the least tweeps.
-	return len(pq[i].tweeps) < len(pq[j].tweeps)
+	return len(pq[i].tweeps) > len(pq[j].tweeps)
 }
 
 func (pq PriorityQueue) Swap(i, j int) {

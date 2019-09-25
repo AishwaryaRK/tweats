@@ -13,18 +13,9 @@ import (
 
 var (
 	testInterests = []string{
-		"a", "b", "c", "d", "e", "f", "Anything",
+		"a", "b", "c", "d", "e", "f", "ANYTHING UNDER THE SUN 🌞",
 	}
 )
-
-func containsStr(strs []string, str string) bool {
-	for _, s := range strs {
-		if s == str {
-			return true
-		}
-	}
-	return false
-}
 
 func TestMatcher(t *testing.T) {
 	tweeps := make([]datamodel.Tweep, 0)

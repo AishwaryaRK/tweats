@@ -5,13 +5,15 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"strings"
 
 	"github.com/AishwaryaRK/tweats/datamodel"
 )
 
 // Constants.
 const (
-	AnyInterest = "Anything"
+	AnyInterest    = "ANYTHING"
+	AnyInterestStr = "ANYTHING UNDER THE SUN 🌞"
 )
 
 // Match defines a match
@@ -48,7 +50,7 @@ func AddTweeps(tweeps ...datamodel.Tweep) (err error) {
 	for _, tweep := range tweeps {
 		// add tweeps to each interest
 		for _, interest := range tweep.Interests {
-			if interest == AnyInterest {
+			if strings.Contains(interest, AnyInterest) {
 				_wildcardTweeps = append(_wildcardTweeps, tweep)
 			} else {
 				_interestMapping[interest] = append(_interestMapping[interest], tweep)
@@ -84,10 +86,18 @@ func GetMatches() (matches []Match, err error) {
 		// Let's get the interest with least tweeps inside.
 		item := heap.Pop(_interestPriorityQueue).(*Item)
 
+		// if no tweeps are in this interst group anymore.
+		if len(item.tweeps) == 0 {
+			continue
+		}
+
 		// if this interest only has 1 person inside.
 		if len(item.tweeps) == 1 {
-			// we randomly pick another user from the wildcard list if there are any.
-			fmt.Println("----> did this randomly pick user from wildcard happen")
+			// if this tweep exists in other interest also, skip this.
+			if existsInOtherGroups(item.tweeps[0]) {
+				continue
+			}
+			// otherwise we pick a random user from the widlcard interest group to and form a match
 			if len(_wildcardTweeps) > 0 {
 				match := Match{[]datamodel.Tweep{item.tweeps[0]}, item.interest}
 				pickedTweeps, err := randomPick(&_wildcardTweeps, 1)
@@ -97,9 +107,8 @@ func GetMatches() (matches []Match, err error) {
 					removeMatchedTweeps(match.MatchedTweeps)
 				}
 			} else {
-				fmt.Println("----> did left out sweeps happen")
-				// otherwise we will unfortunately leave this tweep out.
-				_leftOutTweeps = append(_leftOutTweeps, item.tweeps[0])
+				// try to add to leftover tweeps
+				addToLeftoverTweeps(item.tweeps[0])
 			}
 		} else if len(item.tweeps) <= 3 {
 			// if we have 2 or 3 tweeps, we will do a match for all of them.
@@ -131,23 +140,61 @@ func GetMatches() (matches []Match, err error) {
 			fmt.Printf("interest %s: has %d tweeps\n", item.interest, len(item.tweeps))
 		}
 	}
-	otherMatches, err := handleLeftovers()
-	matches = append(matches, otherMatches...)
+	matches, err = handleLeftovers(matches)
 	return
 }
 
-func handleLeftovers() (matches []Match, err error) {
+func handleLeftovers(currentMatches []Match) (matches []Match, err error) {
+	fmt.Println("current left over tweeps:", len(_leftOutTweeps))
 	// if leftout is not 0, it means we don't have wildcards left.
 	if len(_leftOutTweeps) > 0 {
+		// for each left over tweeps, we try to insert into one of the existing groups based on intersection of interests.
+		for _, match := range currentMatches {
+			for i := range _leftOutTweeps {
+				if containsStr(_leftOutTweeps[i].Interests, match.MatchedInterest) {
+					match.MatchedTweeps = append(match.MatchedTweeps, _leftOutTweeps[i])
+					break
+				}
+			}
+		}
+	}
+
+	fmt.Println("current wild card tweeps:", len(_wildcardTweeps))
+	if len(_wildcardTweeps) > 0 {
 		// send out emails to these guys, and let them freestyle.
-		match := Match{_leftOutTweeps, "Anything"}
-		matches = append(matches, match)
-	} else if len(_wildcardTweeps) > 0 {
-		// send out emails to these guys, and let them freestyle.
-		match := Match{_wildcardTweeps, "Anything"}
-		matches = append(matches, match)
+		match := Match{_wildcardTweeps, AnyInterestStr}
+		matches = append(currentMatches, match)
+	} else {
+		matches = currentMatches
 	}
 	return
+}
+
+func existsInOtherGroups(tweep datamodel.Tweep) bool {
+	for i := range *_interestPriorityQueue {
+		if containTweeps((*_interestPriorityQueue)[i].tweeps, tweep) {
+			return true
+		}
+	}
+	if containTweeps(_wildcardTweeps, tweep) {
+		return true
+	}
+	return false
+}
+
+func addToLeftoverTweeps(tweep datamodel.Tweep) {
+	for i := range *_interestPriorityQueue {
+		if containTweeps((*_interestPriorityQueue)[i].tweeps, tweep) {
+			return
+		}
+	}
+	if containTweeps(_wildcardTweeps, tweep) {
+		return
+	}
+	if containTweeps(_leftOutTweeps, tweep) {
+		return
+	}
+	_leftOutTweeps = append(_leftOutTweeps, tweep)
 }
 
 func removeMatchedTweeps(tweeps []datamodel.Tweep) {
@@ -181,12 +228,30 @@ func removeMatchedTweeps(tweeps []datamodel.Tweep) {
 	}
 }
 
+func containTweeps(tweeps []datamodel.Tweep, tweep datamodel.Tweep) bool {
+	for _, tp := range tweeps {
+		if tp.LDAP == tweep.LDAP {
+			return true
+		}
+	}
+	return false
+}
+
 func getMatchByCount(tweeps *[]datamodel.Tweep, interest string, count int) (match Match, err error) {
 	pickedTweeps, err := randomPick(tweeps, count)
 	if err == nil {
 		match = Match{pickedTweeps, interest}
 	}
 	return
+}
+
+func containsStr(strs []string, str string) bool {
+	for _, s := range strs {
+		if s == str {
+			return true
+		}
+	}
+	return false
 }
 
 func randomPick(tweeps *[]datamodel.Tweep, count int) (randomTweeps []datamodel.Tweep, err error) {
