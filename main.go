@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/AishwaryaRK/tweats/matcher"
 	"github.com/AishwaryaRK/tweats/tweatsreader"
+	"github.com/AishwaryaRK/tweats/mailsender"
 )
 
 func main() {
@@ -29,5 +30,7 @@ func main() {
 		fmt.Printf("Common interests: %v \n", match.MatchedInterest)
 	}
 
-	//mailsender.Send(matches[0].MatchedTweeps)
+	for _, match := range matches {
+		mailsender.Send(match)
+	}
 }

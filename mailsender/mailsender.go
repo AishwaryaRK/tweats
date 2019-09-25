@@ -42,7 +42,7 @@ func Send(match matcher.Match) {
 // Send sends emails to tweeps
 func send(tweeps []model.Tweep, interest string) {
     receiverArr := make([]string, len(tweeps))
-    receiverNames := ""
+    receiverNames := genReceiverNames(tweeps)
     for index, tweep := range tweeps {
         receiverArr[index] = tweep.LDAP + twitterMailSuffix
     }
@@ -59,4 +59,15 @@ func send(tweeps []model.Tweep, interest string) {
     }
 
     log.Printf("Mail sent to: %s", receiverStr)
+}
+
+func genReceiverNames(tweeps []model.Tweep) (nameLine string) {
+    nameLine = ""
+    for index, tweep := range tweeps {
+        if (index != 0) {
+            nameLine += ", "
+        }
+        nameLine += tweep.Name
+    }
+    return
 }
