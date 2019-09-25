@@ -38,10 +38,11 @@ func Read() ([]datamodel.Tweep, error) {
 		//TO-DO: refactor to remove index hardcoding
 		tweep := datamodel.Tweep{
 			LDAP:                          row[1].(string),
-			OfficeLocation:                row[2].(string),
-			Interests:                     strings.Split(row[3].(string), ", "),
-			AllergiesNDieteryRestrictions: row[4].(string),
-			TweatLocation:                 row[5].(string),
+			Name:                          row[2].(string),
+			OfficeLocation:                row[3].(string),
+			Interests:                     strings.Split(row[4].(string), ", "),
+			AllergiesNDieteryRestrictions: row[5].(string),
+			TweatLocation:                 row[6].(string),
 			Availabilities: []datamodel.Availability{
 				{
 					Weekday: 1,

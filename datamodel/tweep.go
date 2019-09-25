@@ -15,6 +15,7 @@ type Availability struct {
 
 // Tweep defines a tweep
 type Tweep struct {
+	Name                          string
 	LDAP                          string
 	OfficeLocation                string
 	Interests                     []string
