@@ -37,7 +37,7 @@ const mailBodyFormat = `<html><body>
 <hr>
 <p>Your common interests are: <b>%s</b>.</p>
 <p>You may answer the following question using "Reply all" to get people know you better:</p>
-<p><b>%s<b></p>
+<p><i>%s</i></p>
 </div>
 
 <div>
