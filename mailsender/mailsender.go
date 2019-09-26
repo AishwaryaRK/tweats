@@ -10,6 +10,7 @@ import (
     model "github.com/AishwaryaRK/tweats/datamodel"
     matcher "github.com/AishwaryaRK/tweats/matcher"
     "github.com/AishwaryaRK/tweats/config"
+    "github.com/AishwaryaRK/tweats/question"
 )
 
 const senderMail = config.SMTP_SENDER_MAIL
@@ -25,18 +26,23 @@ MIME-version: 1.0
 Content-Type: text/html
 
 %s`
-const mailSubjectFormat = "Sg TwEATS Application [%s]"
+const mailSubjectFormat = "[TwEATS] Lunch Buddy (%s)"
 const mailBodyFormat = `<html><body>
 <p>Hello %s,</p>
 
 <p>Thank you for signing up to SG TwEATS. We found your lunch buddy!</p>
 <p><b>Before you start:</b> Please make sure you’ve read and understood the guidelines and best practices at go/SgTwEATS.</p>
 
+<div>
+<hr>
 <p>Your common interests are: <b>%s</b>.</p>
+<p>You may answer the following question using "Reply all" to get people know you better:</p>
+<p><b>%s<b></p>
+</div>
 
 <div>
 <hr>
-<p>Please organise a time that is suitable for the both of you. Here are each of your preferred timings:</p>
+<p>Please organise a time that is suitable for all of you. Here are each of your preferred timings:</p>
 %s
 </div>
 
@@ -72,7 +78,7 @@ func send(tweeps []model.Tweep, interest string) {
     }
     receiverStr := strings.Join(receiverArr, ",")
 
-    mailBody := fmt.Sprintf(mailBodyFormat, receiverNames, interest, preferredTimings)
+    mailBody := fmt.Sprintf(mailBodyFormat, receiverNames, interest, question.GenRandomQuestion(interest), preferredTimings)
     msg := fmt.Sprintf(mailMsgFormat, senderMail, receiverStr, mailSubject, mailBody)
     auth := smtp.PlainAuth("", senderMail, senderCredential, smtpHost)
     err = smtp.SendMail(smtpURI, auth, senderMail, receiverArr, []byte(msg))
